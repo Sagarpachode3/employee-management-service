@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/employees")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class EmployeeController {
 
     private EmployeeService employeeService;
@@ -33,5 +34,18 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDto>> getAllEmployees(){
         List<EmployeeDto> employees = employeeService.getAllEmpoyees();
         return ResponseEntity.ok(employees);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable("id") Long employeeId,
+                                                      @RequestBody EmployeeDto updatedEmployee){
+       EmployeeDto employeeDto = employeeService.updateEmployee(employeeId,updatedEmployee);
+       return ResponseEntity.ok(employeeDto);
+    }
+  
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long employeeId){
+        employeeService.deleteEmployee(employeeId);
+        return ResponseEntity.ok("Employee deleted successfully!");
     }
 }
